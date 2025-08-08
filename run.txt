@@ -1,1 +1,23 @@
-a
+# Compilar
+gcc secuencial.c -o secuencial -lm
+gcc -fopenmp paralelo_auto.c -o paralelo_auto -lm
+gcc -fopenmp paralelo_runtime.c -o paralelo_runtime -lm
+
+# Elegir # hilos
+export OMP_NUM_THREADS=8
+
+# Ejecutar (N = iteraciones)
+./secuencial 200000
+
+./paralelo_auto 200000 8
+
+# Probar schedule(runtime)
+
+export OMP_SCHEDULE="static,8"
+./paralelo_runtime 200000 8
+
+export OMP_SCHEDULE="dynamic,8"
+./paralelo_runtime 200000 8
+
+export OMP_SCHEDULE="guided,64"
+./paralelo_runtime 200000 8
